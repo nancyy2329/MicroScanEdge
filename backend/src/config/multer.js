@@ -6,8 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-
+const crypto = require('crypto');
 const UPLOAD_DIR = path.join(__dirname, '..', '..', 'uploads');
 
 // Defensive — .gitkeep should guarantee this folder survives a fresh clone,
@@ -27,7 +26,7 @@ const storage = multer.diskStorage({
     // Never trust the original filename — generate our own so there's no
     // collision risk and no path-traversal surface from a crafted name.
     const ext = path.extname(file.originalname) || '';
-    cb(null, `${uuidv4()}${ext}`);
+    cb(null, `${crypto.randomUUID()}${ext}`);
   },
 });
 
